@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <!-- 1. YOUR RESUME CONTENT (LangChain scrapes this) -->
+    <!-- 1. RESUME CONTENT -->
     <h1>Muhammad Ehsan Ijaz</h1>
     <p>Email: your.email@example.com | Location: Lahore, Pakistan</p>
     
@@ -33,8 +33,8 @@
         <p><b>Resume RAG Chatbot:</b> Built an interactive retrieval-augmented generation pipeline to answer technical candidate background inquiries leveraging web loaders.</p>
     </div>
 
-    <!-- 2. THE CHATBOT FRONTEND UI PANEL -->
-    <div id="chat-container" style="position: fixed; bottom: 20px; right: 20px; width: 320px; background: white; border: 1px solid #ccc; box-shadow: 0px 4px 12px rgba(0,0,0,0.15); border-radius: 8px; display: none; z-index: 1000;">
+    <!-- 2. THE CHATBOT UI WINDOW (Sits slightly higher up) -->
+    <div id="chat-container" style="position: fixed; bottom: 90px; right: 20px; width: 320px; background: white; border: 1px solid #ccc; box-shadow: 0px 4px 12px rgba(0,0,0,0.15); border-radius: 8px; display: none; z-index: 10000;">
         <div style="background: #007bff; color: white; padding: 12px; border-top-left-radius: 8px; border-top-right-radius: 8px; font-weight: bold;">Resume AI Assistant</div>
         <div id="chat-box" style="height: 250px; overflow-y: auto; padding: 10px; font-size: 14px; background: #f9f9f9;"></div>
         <div style="display: flex; border-top: 1px solid #ccc;">
@@ -43,8 +43,8 @@
         </div>
     </div>
 
-    <!-- Floating Trigger Button -->
-    <button onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; background: #007bff; color: white; border: none; padding: 14px 22px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000;">Chat with my Resume</button>
+    <!-- Floating Chat Trigger Button (Sits right at the bottom corner) -->
+    <button onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; background: #007bff; color: white; border: none; padding: 14px 22px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10000;">💬 Chat with my Resume</button>
 
     <script>
     function toggleChat() {
@@ -63,7 +63,7 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            // TODO: Replace this placeholder link with your live Render URL once deployed!
+            // Pointing to your local backend server for testing
             const response = await fetch('http://localhost:8000/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,7 +72,7 @@
             const data = await response.json();
             chatBox.innerHTML += `<div style="margin-bottom: 8px; color: #0056b3;"><b>Bot:</b> ${data.answer}</div>`;
         } catch (error) {
-            chatBox.innerHTML += `<div style="color: red; font-size: 12px; margin-bottom: 8px;">Connecting to server...</div>`;
+            chatBox.innerHTML += `<div style="color: red; font-size: 12px; margin-bottom: 8px;">Connecting to backend...</div>`;
         }
         chatBox.scrollTop = chatBox.scrollHeight;
     }
