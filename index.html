@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Ehsan Ijaz - Resume</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { color: #007bff; }
+        .section { margin-bottom: 25px; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. YOUR RESUME CONTENT (LangChain scrapes this) -->
+    <h1>Muhammad Ehsan Ijaz</h1>
+    <p>Email: your.email@example.com | Location: Lahore, Pakistan</p>
+    
+    <div class="section">
+        <h2>Professional Summary</h2>
+        <p>Software Engineer specializing in Python development, applied AI, and cloud infrastructure operations using AWS S3, Pandas, and LangChain.</p>
+    </div>
+
+    <div class="section">
+        <h2>Technical Skills</h2>
+        <p><b>Languages & Frameworks:</b> Python, FastAPI, LangChain, Pandas, Boto3</p>
+        <p><b>Cloud & Databases:</b> AWS (S3), ChromaDB, Git</p>
+    </div>
+
+    <div class="section">
+        <h2>Key Projects</h2>
+        <p><b>AWS S3 Singleton Configuration Manager:</b> Developed a robust configuration tracking layout in Python to efficiently interact with multiple target storage environments securely.</p>
+        <p><b>Resume RAG Chatbot:</b> Built an interactive retrieval-augmented generation pipeline to answer technical candidate background inquiries leveraging web loaders.</p>
+    </div>
+
+    <!-- 2. THE CHATBOT FRONTEND UI PANEL -->
+    <div id="chat-container" style="position: fixed; bottom: 20px; right: 20px; width: 320px; background: white; border: 1px solid #ccc; box-shadow: 0px 4px 12px rgba(0,0,0,0.15); border-radius: 8px; display: none; z-index: 1000;">
+        <div style="background: #007bff; color: white; padding: 12px; border-top-left-radius: 8px; border-top-right-radius: 8px; font-weight: bold;">Resume AI Assistant</div>
+        <div id="chat-box" style="height: 250px; overflow-y: auto; padding: 10px; font-size: 14px; background: #f9f9f9;"></div>
+        <div style="display: flex; border-top: 1px solid #ccc;">
+            <input type="text" id="user-input" placeholder="Ask me about Ehsan..." style="flex: 1; padding: 10px; border: none; border-bottom-left-radius: 8px; outline: none;">
+            <button onclick="sendQuestion()" style="background: #007bff; color: white; border: none; padding: 10px 14px; cursor: pointer; border-bottom-right-radius: 8px; font-weight: bold;">Send</button>
+        </div>
+    </div>
+
+    <!-- Floating Trigger Button -->
+    <button onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; background: #007bff; color: white; border: none; padding: 14px 22px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000;">Chat with my Resume</button>
+
+    <script>
+    function toggleChat() {
+        const chat = document.getElementById('chat-container');
+        chat.style.display = chat.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function sendQuestion() {
+        const inputEl = document.getElementById('user-input');
+        const chatBox = document.getElementById('chat-box');
+        const question = inputEl.value.trim();
+        if (!question) return;
+
+        chatBox.innerHTML += `<div style="margin-bottom: 8px;"><b>You:</b> ${question}</div>`;
+        inputEl.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        try {
+            // TODO: Replace this placeholder link with your live Render URL once deployed!
+            const response = await fetch('http://localhost:8000/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question: question })
+            });
+            const data = await response.json();
+            chatBox.innerHTML += `<div style="margin-bottom: 8px; color: #0056b3;"><b>Bot:</b> ${data.answer}</div>`;
+        } catch (error) {
+            chatBox.innerHTML += `<div style="color: red; font-size: 12px; margin-bottom: 8px;">Connecting to server...</div>`;
+        }
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    </script>
+</body>
+</html>
